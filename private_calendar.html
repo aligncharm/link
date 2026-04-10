@@ -1,0 +1,86 @@
+﻿<!DOCTYPE html>
+<html lang="ja">
+<head>
+<meta charset="UTF-8">
+<meta name="viewport" content="width=device-width, initial-scale=1.0">
+<title>align charm — プライベート枠</title>
+<link href="https://fonts.googleapis.com/css2?family=Noto+Sans+JP:wght@300;400;500&family=Poppins:wght@300;400;500&display=swap" rel="stylesheet">
+<style>
+* { box-sizing: border-box; margin: 0; padding: 0; }
+:root { --hdr: #6B7280; --border: #D1D5DB; --bg: #F3F4F6; --text: #1F2937; --muted: #4B5563; --ok-bg: #0F766E; --ok-text: #FFFFFF; --ng-bg: #F87171; --ng-text: #FFFFFF; }
+body { font-family: 'Noto Sans JP', sans-serif; font-weight: 300; background: var(--bg); color: var(--text); min-height: 100vh; }
+.site-header { background: var(--hdr); color: #fff; padding: 12px 20px; display: flex; align-items: center; justify-content: space-between; }
+.studio { font-family: 'Poppins', sans-serif; font-weight: 300; font-size: 12px; letter-spacing: 1.5px; }
+.hdr-title { font-family: 'Poppins', sans-serif; font-size: 16px; font-weight: 400; letter-spacing: 3px; }
+.hdr-note { font-size: 10px; opacity: 0.7; text-align: right; line-height: 1.6; }
+.main { max-width: 500px; margin: 0 auto; padding: 16px 12px 48px; }
+.cal-wrap { background: #fff; border-radius: 12px; overflow: hidden; box-shadow: 0 1px 6px rgba(0,0,0,0.07); }
+table { width: 100%; border-collapse: collapse; table-layout: fixed; }
+th { background: #F9FAFB; font-size: 15px; font-weight: 500; font-family: 'Poppins', sans-serif; color: var(--muted); padding: 10px 0; text-align: center; letter-spacing: 1px; border-bottom: 1px solid var(--border); border-right: 0.5px solid var(--border); line-height: 1.6; }
+th:last-child { border-right: none; }
+th.time-hdr { width: 54px; }
+td { text-align: center; vertical-align: middle; border-right: 0.5px solid var(--border); border-bottom: 0.5px solid var(--border); height: 64px; font-size: 26px; line-height: 1; overflow: hidden; }
+td:last-child { border-right: none; }
+tr:last-child td { border-bottom: none; }
+.time-cell { font-size: 13px; font-family: 'Poppins', sans-serif; color: var(--muted); background: #FAFAFA; border-right: 1px solid var(--border) !important; padding: 0 8px; text-align: right; }
+.ok { background: var(--ok-bg); color: var(--ok-text); }
+.ng { background: var(--ng-bg); color: var(--ng-text); }
+.fri-note { display: block; font-size: 10px; color: rgba(255,255,255,0.75); margin-top: 3px; font-weight: 300; }
+.note-box { margin-top: 12px; background: #fff; border-radius: 10px; padding: 10px 16px; font-size: 11px; color: var(--muted); display: flex; gap: 16px; flex-wrap: wrap; box-shadow: 0 1px 4px rgba(0,0,0,0.04); }
+@media (max-width: 480px) {
+  th { font-size: 13px; }
+  td { height: 18vw; font-size: 7vw; }
+  .time-cell { font-size: 11px; padding: 0 4px; }
+  .fri-note { font-size: 8px; }
+}
+</style>
+</head>
+<body>
+<header class="site-header">
+  <span class="studio">align charm</span>
+  <span class="hdr-title">プライベート枠</span>
+  <span class="hdr-note">月額会員様向けスケジュール<br>※金曜8:45・11:30・13:30は第2・4週のみ</span>
+</header>
+<div class="main">
+  <div class="cal-wrap">
+    <table>
+      <thead><tr>
+        <th class="time-hdr"></th>
+        <th>月</th><th>火</th><th>水</th><th>木</th>
+        <th>金<br><span style="font-size:9px;font-weight:300;opacity:0.7">※第2・4週</span></th>
+      </tr></thead>
+      <tbody id="cal-body"></tbody>
+    </table>
+  </div>
+  <div class="note-box">
+    <span>○ 予約可能</span>
+    <span>満 予約不可</span>
+    <span style="margin-left:auto">※金曜8:45・11:30・13:30は第2・4週のみ</span>
+  </div>
+</div>
+<script>
+const DATA  = {"8:45":{"月":{"avail":true,"name":""},"火":{"avail":true,"name":""},"水":{"avail":true,"name":""},"木":{"avail":true,"name":""},"金":{"avail":true,"name":""}},"11:30":{"月":{"avail":true,"name":""},"火":{"avail":false,"name":"RYOKO"},"水":{"avail":false,"name":"MIDORI"},"木":{"avail":false,"name":"SUMI"},"金":{"avail":true,"name":""}},"13:30":{"月":{"avail":false,"name":""},"火":{"avail":true,"name":""},"水":{"avail":false,"name":"ATSUKO"},"木":{"avail":false,"name":"KAORI"},"金":{"avail":true,"name":""}},"15:00":{"月":{"avail":true,"name":""},"火":{"avail":true,"name":""},"水":{"avail":true,"name":""},"木":{"avail":true,"name":""},"金":{"avail":false,"name":""}},"16:30":{"月":{"avail":true,"name":""},"火":{"avail":true,"name":""},"水":{"avail":true,"name":""},"木":{"avail":true,"name":""},"金":{"avail":true,"name":""}}};
+const TIMES = ['8:45','11:30','13:30','15:00','16:30'];
+const DAYS  = ['月','火','水','木','金'];
+const FRI_LIMITED = ['8:45','11:30','13:30'];
+const body  = document.getElementById('cal-body');
+TIMES.forEach(t => {
+  const tr = document.createElement('tr');
+  const tc = document.createElement('td'); tc.className='time-cell'; tc.textContent=t; tr.appendChild(tc);
+  DAYS.forEach(d => {
+    const td = document.createElement('td');
+    const slot = DATA[t]?.[d] ?? {avail: true};
+    const ok = slot.avail ?? true;
+    const isFriLimited = d==='金' && FRI_LIMITED.includes(t);
+    td.className = ok ? 'ok' : 'ng';
+    const mk = document.createElement('span'); mk.textContent = ok ? '○' : '満'; td.appendChild(mk);
+    if (isFriLimited) {
+      const n = document.createElement('span'); n.className='fri-note'; n.textContent='第2・4週のみ'; td.appendChild(n);
+    }
+    tr.appendChild(td);
+  });
+  body.appendChild(tr);
+});
+</script>
+</body>
+</html>
