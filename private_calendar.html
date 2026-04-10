@@ -7,19 +7,19 @@
 <link href="https://fonts.googleapis.com/css2?family=Noto+Sans+JP:wght@300;400;500&family=Poppins:wght@300;400;500&display=swap" rel="stylesheet">
 <style>
 * { box-sizing: border-box; margin: 0; padding: 0; }
-:root { --hdr: #6B7280; --border: #D1D5DB; --bg: #F3F4F6; --text: #1F2937; --muted: #4B5563; --ok-bg: #0F766E; --ok-text: #FFFFFF; --ng-bg: #F87171; --ng-text: #FFFFFF; }
+:root { --hdr: #6B7280; --border: #9CA3AF; --bg: #F3F4F6; --text: #1F2937; --muted: #4B5563; --ok-bg: #0F766E; --ok-text: #FFFFFF; --ng-bg: #F87171; --ng-text: #FFFFFF; }
 body { font-family: 'Noto Sans JP', sans-serif; font-weight: 300; background: var(--bg); color: var(--text); min-height: 100vh; }
 .site-header { background: var(--hdr); color: #fff; padding: 12px 20px; display: flex; align-items: center; justify-content: space-between; }
 .studio { font-family: 'Poppins', sans-serif; font-weight: 300; font-size: 12px; letter-spacing: 1.5px; }
 .hdr-title { font-family: 'Poppins', sans-serif; font-size: 16px; font-weight: 400; letter-spacing: 3px; }
 .hdr-note { font-size: 10px; opacity: 0.7; text-align: right; line-height: 1.6; }
 .main { max-width: 500px; margin: 0 auto; padding: 16px 12px 48px; }
-.cal-wrap { background: #fff; border-radius: 12px; overflow: hidden; box-shadow: 0 1px 6px rgba(0,0,0,0.07); }
+.cal-wrap { background: #fff; border-radius: 12px; overflow: hidden; box-shadow: 0 1px 6px rgba(0,0,0,0.07); border: 1px solid var(--border); }
 table { width: 100%; border-collapse: collapse; table-layout: fixed; }
-th { background: #F9FAFB; font-size: 15px; font-weight: 500; font-family: 'Poppins', sans-serif; color: var(--muted); padding: 10px 0; text-align: center; letter-spacing: 1px; border-bottom: 1px solid var(--border); border-right: 0.5px solid var(--border); line-height: 1.6; }
+th { background: #F9FAFB; font-size: 15px; font-weight: 500; font-family: 'Poppins', sans-serif; color: var(--muted); padding: 10px 0; text-align: center; letter-spacing: 1px; border-bottom: 1px solid var(--border); border-right: 1px solid var(--border); line-height: 1.6; }
 th:last-child { border-right: none; }
 th.time-hdr { width: 54px; }
-td { text-align: center; vertical-align: middle; border-right: 0.5px solid var(--border); border-bottom: 0.5px solid var(--border); height: 64px; font-size: 26px; line-height: 1; overflow: hidden; }
+td { text-align: center; vertical-align: middle; border-right: 1px solid var(--border); border-bottom: 1px solid var(--border); height: 64px; font-size: 26px; line-height: 1; overflow: hidden; }
 td:last-child { border-right: none; }
 tr:last-child td { border-bottom: none; }
 .time-cell { font-size: 13px; font-family: 'Poppins', sans-serif; color: var(--muted); background: #FAFAFA; border-right: 1px solid var(--border) !important; padding: 0 8px; text-align: right; }
