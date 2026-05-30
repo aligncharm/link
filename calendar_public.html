@@ -135,6 +135,31 @@ function buildPC(y,m,schedule,last,startOffset,totalCells) {
 
 
 
+function buildSP(y,m,schedule,last,startOffset){
+  const wrap=document.getElementById('sp-cal'); if(!wrap)return; wrap.innerHTML='';
+  const totalWeeks=Math.ceil((startOffset+last)/7);
+  for(let w=0;w<totalWeeks;w++){
+    const week=document.createElement('div'); week.className='sp-week';
+    const lbl=document.createElement('div'); lbl.className='sp-week-label'; lbl.textContent='第'+(w+1)+'週'; week.appendChild(lbl);
+    const days=document.createElement('div'); days.className='sp-days';
+    for(let dow=0;dow<7;dow++){
+      const i=w*7+dow, d=i-startOffset+1;
+      const day=document.createElement('div');
+      if(d<1||d>last){day.className='sp-day empty';days.appendChild(day);continue;}
+      day.className='sp-day';
+      const nd=document.createElement('div');
+      nd.className='sp-day-num'+(dow===5?' sat':dow===6?' sun':'');
+      nd.textContent=d; day.appendChild(nd);
+      const slots=(schedule[y+'-'+m+'-'+d]||[]).filter(s=>s.lesson);
+      const isKyuko=slots[0]?.lesson==='__kyuko__';
+      if(isKyuko){const s=document.createElement('div');s.className='sp-slot kyuko';s.textContent='休講';day.appendChild(s);}
+      else slots.forEach(s=>{const el=document.createElement('div');el.className='sp-slot normal';el.innerHTML='<span class="sp-slot-time">'+(s.time||'')+'</span><span class="sp-slot-name">'+s.lesson+'</span>';day.appendChild(el);});
+      days.appendChild(day);
+    }
+    week.appendChild(days); wrap.appendChild(week);
+  }
+}
+
 function changeMonth(delta) {
   // 当月と前月の範囲のみ（埋め込み2ヶ月分）
   let ny = currentYear, nm = currentMonth + delta;
