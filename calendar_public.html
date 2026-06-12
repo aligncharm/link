@@ -156,7 +156,11 @@ function buildSP(y,m,schedule,last,startOffset){
       const slots=(schedule[y+'-'+m+'-'+d]||[]).filter(s=>s.lesson);
       const isKyuko=slots[0]?.lesson==='__kyuko__';
       if(isKyuko){const s=document.createElement('div');s.className='sp-slot kyuko';s.textContent='休講';day.appendChild(s);}
-      else slots.forEach(s=>{const el=document.createElement('div');el.className='sp-slot normal';el.innerHTML='<span class="sp-slot-time">'+(s.time||'')+'</span><span class="sp-slot-name">'+s.lesson+'</span>';day.appendChild(el);});
+      else slots.forEach(s=>{const el=document.createElement('div');el.className='sp-slot normal';
+        const INST=[{name:'Ree',color:'#4472C4',bg:'#EEF4FB'},{name:'Naomi',color:'#D4756B',bg:'#FDF0EE'}];
+        const inst=INST.find(i=>i.name===s.instructor);
+        if(inst)el.style.cssText='color:'+inst.color+';background:'+inst.bg+';';
+        el.innerHTML='<span class="sp-slot-time">'+(s.time||'')+'</span><span class="sp-slot-name">'+s.lesson+'</span>';day.appendChild(el);});
       days.appendChild(day);
     }
     week.appendChild(days); wrap.appendChild(week);
